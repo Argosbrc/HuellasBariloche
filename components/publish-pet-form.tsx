@@ -181,18 +181,12 @@ export function PublishPetForm({
       </section>
 
       <section className="publish-section">
-        <header><span>2</span><div><h2>Datos del animal</h2><p>La información concreta ayuda a reconocerlo y evita confusiones.</p></div></header>
+        <header><span>2</span><div><h2>Datos del animal</h2><p>Completá los datos principales para ayudar a encontrarlo.</p></div></header>
         <div className="publish-fields">
           <label>Nombre {postType === "found" && <small>opcional</small>}<input maxLength={80} name="name" required={postType !== "found"} /></label>
           <label>Especie<select name="species" required defaultValue="Perro"><option>Perro</option><option>Gato</option><option>Ave</option><option>Otro</option></select></label>
-          <label>Raza <small>opcional</small><input maxLength={80} name="breed" /></label>
           <label>Sexo<select name="sex" defaultValue="unknown"><option value="unknown">No se sabe</option><option value="male">Macho</option><option value="female">Hembra</option></select></label>
-          <label>Edad aproximada <small>opcional</small><input maxLength={60} name="age_label" placeholder="Ej.: 3 años" /></label>
-          <label>Tamaño<select name="size_label" defaultValue="Mediano"><option>Pequeño</option><option>Mediano</option><option>Grande</option><option>No se sabe</option></select></label>
-          <label className="form-wide">Colores o marcas <small>separados por coma</small><input maxLength={300} name="colors" placeholder="Ej.: negro, pecho blanco, patas marrones" /></label>
-          <label className="form-wide">Señas particulares <small>opcional</small><textarea maxLength={1200} minLength={3} name="distinctive_features" rows={3} placeholder="Collar, cicatriz, mancha, forma de las orejas…" /></label>
           <label className="form-wide">Descripción<textarea maxLength={3000} minLength={10} name="description" required rows={5} placeholder="Contá cómo ocurrió, su comportamiento y cualquier dato útil." /></label>
-          <label className="form-wide">Estado de salud <small>opcional</small><textarea maxLength={1000} minLength={2} name="health_status" rows={3} /></label>
           {postType === "adoption" && <>
             <label className="form-wide">Condiciones para adoptar<textarea maxLength={2000} minLength={10} name="adoption_requirements" required rows={4} placeholder="Tipo de hogar, seguimiento, convivencia y requisitos." /></label>
             <div className={`transit-publish-box form-wide ${needsTransit ? "selected" : ""}`}>
