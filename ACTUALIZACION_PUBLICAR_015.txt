@@ -1,0 +1,40 @@
+HUELLAS BARILOCHE - ACTUALIZACION DEL FORMULARIO PUBLICAR (015)
+
+Esta entrega reemplaza la pantalla provisional que solo preparaba fotografias.
+La ruta /publicar ahora contiene el formulario completo y envia la publicacion
+mediante la funcion segura create_pet_post_v1 instalada por la migracion 015.
+
+CAMPOS INCLUIDOS
+
+- Tipo: perdido, encontrado o adopcion.
+- Nombre, especie, raza, sexo, edad aproximada y tamano.
+- Colores, marcas, senas particulares, descripcion y estado de salud.
+- Entre una y cuatro fotografias optimizadas para ImageKit.
+- Zona o barrio, fecha y hora, ubicacion aproximada y referencia privada.
+- WhatsApp del perfil, si la persona decide mostrarlo.
+- Condiciones de adopcion para rescatistas verificados.
+
+ACTUALIZACION SEGURA EN WINDOWS
+
+1. Detene npm run dev con Ctrl + C.
+2. Renombra tu carpeta actual como Huellas_Bariloche_Web_RESPALDO.
+3. Descomprime este ZIP. Debe quedar una carpeta nueva Huellas_Bariloche_Web.
+4. Copia solamente el archivo .env.local desde la carpeta de respaldo a la
+   carpeta nueva. No copies las carpetas app, components o lib del respaldo.
+5. Abri la carpeta nueva en Visual Studio Code.
+6. Ejecuta:
+
+   npm install
+   npm run dev
+
+7. Inicia sesion y abre http://localhost:3000/publicar.
+
+No vuelvas a ejecutar las migraciones 001 a 015. La base ya esta validada.
+Conserva la carpeta de respaldo hasta comprobar una publicacion completa.
+
+NOTA SOBRE AVISTAMIENTOS
+
+La migracion 015 crea casos perdidos, encontrados y en adopcion. La opcion
+"Lo encontre" admite describir si el animal fue visto o quedo a resguardo.
+El registro independiente de avistamientos asociados a un caso se incorpora
+en el siguiente bloque funcional y no requiere repetir la migracion 015.

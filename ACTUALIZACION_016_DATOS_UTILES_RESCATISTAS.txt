@@ -1,0 +1,42 @@
+HUELLAS BARILOCHE - ACTUALIZACION 016
+
+Esta version agrega:
+
+- Datos utiles en reemplazo de Guia Huellera.
+- Categorias administrables para veterinarias, pet shops, alimentos y otros.
+- Horarios, guardia, 24 horas, domicilio, especializaciones, productos,
+  envios, medios de pago, telefonos, redes e imagenes.
+- Portal publico /rescatistas con perfiles aprobados.
+- Alias, necesidades y mensaje de donaciones opcionales.
+- Correccion del acceso a /comunidad para conservar la sesion activa.
+
+INSTALACION
+
+1. Detener el servidor con Ctrl + C.
+2. Conservar el archivo .env.local de la version actualmente instalada.
+3. Reemplazar el proyecto por esta version y copiar nuevamente .env.local.
+4. En Supabase SQL Editor ejecutar una sola vez:
+
+   016_useful_data_rescuers.sql
+
+5. Ejecutar despues:
+
+   016_verify.sql
+
+6. Continuar solamente si el JSON devuelve "result": "PASS".
+7. En la carpeta del proyecto ejecutar:
+
+   npm install
+   npm run dev
+
+No repetir las migraciones 001 a 015.
+
+PRUEBAS RECOMENDADAS
+
+- Como administrador: abrir /admin?section=guia, crear un dato util, agregar
+  una imagen y publicarlo.
+- Como usuario comun: enviar una solicitud de rescatista desde /panel.
+- Como administrador: aprobarla en /admin?section=rescatistas.
+- Como rescatista aprobado: completar alias y necesidades en /cuenta/perfil.
+- Abrir /rescatistas sin iniciar sesion y confirmar que la ficha sea publica.
+- Iniciar sesion, abrir /comunidad y confirmar que ya no vuelve a /ingresar.

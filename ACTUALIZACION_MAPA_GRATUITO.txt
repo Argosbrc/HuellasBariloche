@@ -1,0 +1,30 @@
+HUELLAS BARILOCHE - MAPA REAL GRATUITO
+======================================
+
+Esta revision reemplaza el mapa ilustrativo de /mapa por cartografia real.
+
+Incluye:
+- Calles, barrios y referencias de San Carlos de Bariloche.
+- Zoom, desplazamiento y control para volver a Bariloche.
+- Centrado automatico al seleccionar un caso.
+- Filtros para perdidos, encontrados y adopciones.
+- Ubicacion actual opcional, usada solo dentro del navegador.
+- Puntos y radios aproximados; la coordenada exacta permanece privada.
+
+Tecnologia:
+- Leaflet (software libre).
+- OpenStreetMap (cartografia abierta).
+- No necesita clave, cuenta, tarjeta ni facturacion.
+
+INSTALACION
+-----------
+1. Conservar el archivo .env.local de la instalacion actual.
+2. Reemplazar el proyecto por esta revision.
+3. Ejecutar: npm install
+4. Ejecutar: npm run dev
+5. Abrir: http://localhost:3000/mapa
+
+No ejecutar migraciones SQL. Las migraciones 001-015 siguen vigentes.
+
+La atribucion a OpenStreetMap se muestra automaticamente en la esquina
+inferior del mapa y no debe ocultarse.

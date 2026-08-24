@@ -1,0 +1,53 @@
+HUELLAS BARILOCHE - ACTUALIZACION 019
+Fichas de adopción, casos recientes y tránsitos en rescatistas
+
+Esta actualización es únicamente del proyecto web.
+No requiere una migración nueva ni cambios en Supabase.
+
+CAMBIOS INCLUIDOS
+
+1. ADOPCIONES
+- Fichas horizontales con la fotografía como protagonista.
+- Nombre, sexo, tamaño, especie, raza, edad, ubicación y rescatista.
+- Estado sanitario y compatibilidad cuando fueron informados.
+- Descripción, requisitos del hogar y llamado a conocer la ficha.
+- Diseño adaptable a computadora, tablet y celular.
+
+2. CASOS RECIENTES
+- Muestra la fotografía real registrada en la publicación.
+- Si no existe portada, usa la primera fotografía disponible.
+- Solo muestra el ícono ilustrado cuando la publicación realmente no tiene imagen.
+- Agrega Adopción al filtro junto con Perdido, Encontrado y Avistamiento.
+
+3. PORTAL DE RESCATISTAS
+- Incluye las búsquedas activas de hogares de tránsito.
+- Muestra fotografía, animal, organización, requisitos y zona.
+- Enlaza al portal de tránsitos para que una cuenta pueda ofrecer ayuda.
+- Mantiene debajo el directorio de rescatistas y sus donaciones.
+
+INSTALACION
+
+1. Conservar el archivo .env.local de la instalación actual.
+2. Reemplazar la carpeta del proyecto por esta versión.
+3. Copiar nuevamente .env.local.
+4. Ejecutar:
+
+   npm install
+   npm run dev
+
+5. Revisar:
+   /adopciones
+   /rescatistas
+   /
+
+IMPORTANTE
+
+- No ejecutar migraciones.
+- No repetir las migraciones 001 a 018.
+- No cambiar las claves de Supabase ni de ImageKit.
+
+VALIDACION
+
+- TypeScript: aprobado.
+- ESLint: aprobado.
+- Compilación de producción: aprobada.
