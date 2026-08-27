@@ -101,13 +101,13 @@ export function CaseSightingReport({ petPostId, petName, publisherName, hasPubli
             <div className="sighting-form-grid">
               <label className="form-wide"><span>¿Dónde fue?</span><input name="location_text" minLength={3} maxLength={180} required placeholder="Calle, esquina, barrio o referencia" /></label>
               <div className="sighting-location-control form-wide"><button type="button" onClick={requestLocation} disabled={locationState === "loading"}><Crosshair />{locationState === "loading" ? "Buscando ubicación…" : locationState === "ready" ? "Ubicación agregada" : "Agregar mi ubicación actual"}</button><small>{locationState === "ready" ? "Solo la verá la persona que publicó el caso." : locationState === "error" ? "No pudimos obtenerla. Podés describir el lugar arriba." : "Es opcional y ayuda a señalar el punto exacto de forma privada."}</small></div>
-              <label className="form-wide"><span>Contá lo que viste</span><textarea name="message" minLength={8} maxLength={1200} required rows={4} placeholder="Dirección hacia la que iba, estado, si llevaba collar o cualquier detalle útil" /></label>
+              <label className="form-wide"><span>Descripción del avistamiento</span><textarea name="message" minLength={8} maxLength={1200} required rows={4} placeholder="Contá qué viste, dónde estaba y cualquier detalle útil para encontrarlo" /></label>
               <label><span><Phone /> Teléfono o WhatsApp</span><input name="contact_phone" inputMode="tel" maxLength={30} placeholder="Opcional" /></label>
-              <label><span><Smartphone /> Red social</span><input name="contact_social" maxLength={180} placeholder="@usuario o enlace (opcional)" /></label>
+              
             </div>
             <p className="sighting-contact-note">Si lo tenés a resguardo, necesitás dejar teléfono o red social para poder coordinar. En un avistamiento son opcionales.</p>
             {feedback?.type === "error" && <p className="sighting-report-error">{feedback.message}</p>}
-            <div className="sighting-report-actions"><button className="button button-light" type="button" onClick={() => setOpen(false)}>Cancelar</button><button className="button button-primary" type="submit" disabled={submitting}>{submitting ? "Enviando…" : "Enviar aviso privado"}</button></div>
+            <div className="sighting-report-actions"><button className="button button-light" type="button" onClick={() => setOpen(false)}>Cancelar</button><button className="button button-primary" type="submit" disabled={submitting}>{submitting ? "Enviando…" : "Enviar aviso"}</button></div>
           </form>}
         </div>
       </div>}
