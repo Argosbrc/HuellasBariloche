@@ -24,8 +24,6 @@ function urlBase64ToUint8Array(value: string) {
 
 export function PushNotificationControl() {
   const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY?.trim() ?? "";
-  console.log("VAPID PUBLIC KEY:", vapidPublicKey);
-console.log("VAPID LENGTH:", vapidPublicKey.length);
   const [state, setState] = useState<"loading" | "unsupported" | "disabled" | "enabled" | "denied" | "error">("loading");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
