@@ -53,13 +53,41 @@ async function deliverPush(
   if (error || !Array.isArray(data) || data.length === 0) return 0;
 
   webpush.setVapidDetails(subject, publicKey, privateKey);
-  const deliveries = await Promise.allSettled(data.map((item: Record<string, string>) => webpush.sendNotification(
-    { endpoint: item.endpoint, keys: { p256dh: item.p256dh, auth: item.auth } },
-    JSON.stringify({ title: item.push_title, body: item.push_body, url: item.push_link, tag: `pet-sighting-${alertId}` }),
-    { TTL: 3600, urgency: "high" },
-  )));
-  return deliveries.filter((delivery) => delivery.status === "fulfilled").length;
-}
+  const deliveries = await Promise.allSettled(
+  data.map(async (item: Record<string, string>) => {
+    try {
+      const result = await webpush.sendNotification(
+        {
+          endpoint: item.endpoint,
+          keys: {
+            p256dh: item.p256dh,
+            auth: item.auth,
+          },
+        },
+        JSON.stringify({
+          title: item.push_title,
+          body: item.push_body,
+          url: item.push_link,
+          tag: `pet-sighting-${alertId}`,
+        }),
+        {
+          TTL: 3600,
+          urgency: "high",
+        },
+      );
+
+      console.log("PUSH OK", result.statusCode);
+      return result;
+    } catch (error) {
+      console.error("PUSH ERROR", error);
+      throw error;
+    }
+  }),
+);
+
+console.log("PUSH RESULTADOS", deliveries);
+
+return deliveries.filter((delivery) => delivery.status === "fulfilled").length;
 
 export async function POST(request: NextRequest) {
   if (!sameOrigin(request)) return NextResponse.json({ message: "Solicitud no permitida." }, { status: 403 });
