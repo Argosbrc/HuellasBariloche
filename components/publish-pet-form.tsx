@@ -100,11 +100,9 @@ export function PublishPetForm({
       setMessage("Tu cuenta todavía no está verificada como rescatista.");
       return;
     }
-    if (postType !== "adoption" && (!location?.latitude || !location?.longitude)) {
-      setMessageKind("error");
-      setMessage("Agregá la ubicación actual para publicar un caso perdido o encontrado.");
-      return;
-    }
+    // La ubicación ya no bloquea la publicación.
+    // Si el usuario agrega ubicación del dispositivo se guardan coordenadas
+    // para proximidad; si no, la publicación continúa con la zona/barrio.
 
     // React only guarantees currentTarget while the submit handler is running
     // synchronously. Capture the form before uploading images, since the first
