@@ -5,10 +5,21 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 function urlBase64ToUint8Array(value: string) {
-  const padding = "=".repeat((4 - (value.length % 4)) % 4);
-  const base64 = (value + padding).replace(/-/g, "+").replace(/_/g, "/");
-  const raw = window.atob(base64);
-  return Uint8Array.from([...raw].map((character) => character.charCodeAt(0)));
+  const clean = value.trim();
+
+  if (!clean || clean.length < 80) {
+    throw new Error("La clave VAPID pública no es válida.");
+  }
+
+  const padding = "=".repeat((4 - (clean.length % 4)) % 4);
+  const base64 = (clean + padding).replace(/-/g, "+").replace(/_/g, "/");
+
+  try {
+    const raw = window.atob(base64);
+    return Uint8Array.from([...raw].map((character) => character.charCodeAt(0)));
+  } catch {
+    throw new Error("La clave VAPID pública tiene un formato incorrecto.");
+  }
 }
 
 export function PushNotificationControl() {
