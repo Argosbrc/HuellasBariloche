@@ -95,6 +95,38 @@ export function PublishPetForm({
       setMessage("Agregá al menos una foto antes de publicar.");
       return;
     }
+
+    const form = new FormData(event.currentTarget);
+
+    const name = formText(form, "name");
+    const species = formText(form, "species");
+    const sex = formText(form, "sex");
+    const description = formText(form, "description");
+    const zoneName = formText(form, "zone_name");
+    const eventAt = formText(form, "event_at");
+
+    if (postType === "lost") {
+      if (!name || !species || !sex || !description) {
+        setMessageKind("error");
+        setMessage("Para una mascota perdida completá nombre, especie, sexo y descripción.");
+        return;
+      }
+    }
+
+    if (postType === "found") {
+      if (!species || !description) {
+        setMessageKind("error");
+        setMessage("Para una mascota encontrada completá especie y descripción.");
+        return;
+      }
+    }
+
+    if (postType !== "adoption" && (!zoneName || !eventAt)) {
+      setMessageKind("error");
+      setMessage("Completá la zona y la fecha/hora del lugar donde ocurrió.");
+      return;
+    }
+
     if (postType === "adoption" && !canPublishAdoption) {
       setMessageKind("error");
       setMessage("Tu cuenta todavía no está verificada como rescatista.");
@@ -107,8 +139,6 @@ export function PublishPetForm({
     // React only guarantees currentTarget while the submit handler is running
     // synchronously. Capture the form before uploading images, since the first
     // await can leave event.currentTarget as null in the browser.
-    const form = new FormData(event.currentTarget);
-
     setSubmitting(true);
     setMessageKind("info");
     setMessage("Preparando la publicación y sus imágenes…");
@@ -189,12 +219,12 @@ export function PublishPetForm({
           <label>Nombre {postType === "found" && <small>opcional</small>}<input maxLength={80} name="name" required={postType !== "found"} /></label>
           <label>Especie<select name="species" required defaultValue="Perro"><option>Perro</option><option>Gato</option><option>Ave</option><option>Otro</option></select></label>
           <label>Raza <small>opcional</small><input maxLength={80} name="breed" /></label>
-          <label>Sexo<select name="sex" defaultValue="unknown"><option value="unknown">No se sabe</option><option value="male">Macho</option><option value="female">Hembra</option></select></label>
+          <label>Sexo {postType === "lost" && <small>obligatorio</small>}<select name="sex" defaultValue="unknown" required={postType === "lost"}><option value="unknown">No se sabe</option><option value="male">Macho</option><option value="female">Hembra</option></select></label>
           <label>Edad aproximada <small>opcional</small><input maxLength={60} name="age_label" placeholder="Ej.: 3 años" /></label>
           <label>Tamaño<select name="size_label" defaultValue="Mediano"><option>Pequeño</option><option>Mediano</option><option>Grande</option><option>No se sabe</option></select></label>
           <label className="form-wide">Colores o marcas <small>separados por coma</small><input maxLength={300} name="colors" placeholder="Ej.: negro, pecho blanco, patas marrones" /></label>
           <label className="form-wide">Señas particulares <small>opcional</small><textarea maxLength={1200} minLength={3} name="distinctive_features" rows={3} placeholder="Collar, cicatriz, mancha, forma de las orejas…" /></label>
-          <label className="form-wide">Descripción<textarea maxLength={3000} minLength={10} name="description" required rows={5} placeholder="Contá cómo ocurrió, su comportamiento y cualquier dato útil." /></label>
+          <label className="form-wide">Descripción<textarea maxLength={3000} minLength={10} name="description" required rows={5} placeholder={postType === "lost" ? "Contá cómo ocurrió la pérdida y datos que ayuden a reconocerlo." : "Contá dónde apareció, su estado y cualquier dato útil."} /></label>
           <label className="form-wide">Estado de salud <small>opcional</small><textarea maxLength={1000} minLength={2} name="health_status" rows={3} /></label>
           {postType === "adoption" && <>
             <label className="form-wide">Condiciones para adoptar<textarea maxLength={2000} minLength={10} name="adoption_requirements" required rows={4} placeholder="Tipo de hogar, seguimiento, convivencia y requisitos." /></label>
