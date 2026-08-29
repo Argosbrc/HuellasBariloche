@@ -634,9 +634,12 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .results-heading span { color: var(--muted); font-size: 11px; }
 .results-heading > a { display: flex; align-items: center; gap: 5px; color: var(--green); font-size: 12px; font-weight: 900; }
 .directory-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
-.directory-card { overflow: hidden; border: 1px solid var(--line); border-radius: 25px 25px 25px 8px; background: white; transition: transform .2s ease, box-shadow .2s ease; }
+.directory-card {display: flex;
+  flex-direction: column;
+  height: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: 25px 25px 25px 8px; background: white; transition: transform .2s ease, box-shadow .2s ease; }
 .directory-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(21,55,47,.09); }
-.directory-image { position: relative; height: 225px; display: grid; place-items: center; }
+.directory-image { height: 280px;
+  overflow: hidden; position: relative; height: 225px; display: grid; place-items: center; }
 .directory-image > svg { filter: drop-shadow(0 8px 12px rgba(21,55,47,.08)); }
 .approx-label { position: absolute; left: 14px; bottom: 12px; padding: 7px 9px; display: inline-flex; align-items: center; gap: 5px; border-radius: 9px; color: #49655d; background: rgba(255,255,255,.78); font-size: 9px; font-weight: 800; }
 .directory-body { padding: 19px; }
