@@ -61,6 +61,39 @@ export async function updateSightingAlertStatus(formData: FormData) {
   panelResult(status === "contacted" ? "Aviso marcado como contactado." : status === "resolved" ? "Aviso marcado como resuelto." : "Aviso descartado.", false, "#avisos-casos");
 }
 
+export async function startSightingConversation(formData: FormData) {
+  const petPostId = field(formData, "pet_post_id");
+  const reporterUserId = field(formData, "reporter_user_id");
+
+  if (!petPostId || !reporterUserId) {
+    panelResult(
+      "No se pudo identificar la conversación.",
+      true,
+      "#avisos-casos"
+    );
+  }
+
+  const { supabase } = await requireAccount();
+
+  const { data, error } = await supabase.rpc(
+    "start_sighting_conversation",
+    {
+      target_post: petPostId,
+      target_user: reporterUserId,
+    }
+  );
+
+  if (error || !data) {
+    panelResult(
+      error?.message || "No se pudo iniciar la conversación.",
+      true,
+      "#avisos-casos"
+    );
+  }
+
+  redirect(`/conversaciones/${data}`);
+}
+
 export async function markNotificationRead(formData: FormData) {
   const notificationId = field(formData, "notification_id");
   if (!notificationId) panelResult("La notificación no es válida.", true, "#notificaciones");

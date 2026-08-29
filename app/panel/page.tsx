@@ -32,7 +32,10 @@ import { closeTransitRequest, reviewTransitOffer } from "@/app/transitos/actions
 import { reviewAdoptionApplication } from "@/app/adopciones/actions";
 import { PushNotificationControl } from "@/components/push-notification-control";
 import { PwaInstallCard } from "@/components/pwa-install";
-import { markAllNotificationsRead, markNotificationRead, updateSightingAlertStatus } from "@/app/panel/casos/actions";
+import { markAllNotificationsRead,
+  markNotificationRead,
+  updateSightingAlertStatus,
+  startSightingConversation } from "@/app/panel/casos/actions";
 import { NearbyAlertControl } from "@/components/nearby-alert-control";
 
 export const dynamic = "force-dynamic";
