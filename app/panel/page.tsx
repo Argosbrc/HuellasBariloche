@@ -87,6 +87,26 @@ export default async function PanelPage({
 }) {
   const params = await searchParams;
   const data = await loadAccountDashboard();
+
+  const groupedSightingAlerts = Object.values(
+    data.sightingAlerts.reduce((groups, alert) => {
+      const key = alert.pet_post_id;
+
+      if (!groups[key]) {
+        groups[key] = {
+          pet_post_id: alert.pet_post_id,
+          pet_name: alert.pet_name,
+          cover_image_url: alert.cover_image_url,
+          alerts: [],
+        };
+      }
+
+      groups[key].alerts.push(alert);
+
+      return groups;
+    }, {} as Record<string, any>)
+  );
+
   const isRescuer = data.profile.role === "rescuer" || Boolean(data.rescuer);
   const isAdmin = data.profile.role === "admin";
 
@@ -135,21 +155,140 @@ export default async function PanelPage({
         </article>
       </section>
 
-      {data.sightingAlerts.length > 0 && <section className="sighting-alerts-dashboard" id="avisos-casos">
-        <header><div><span className="section-kicker"><BellRing size={15} /> Avisos de la comunidad</span><h2>Vieron una mascota que buscás</h2><p>Estos datos son privados: solo vos y la administración pueden verlos.</p></div><span className="sighting-alert-count">{data.sightingAlerts.length} avisos</span></header>
-        <div className="sighting-alert-list">{data.sightingAlerts.map((alert) => <article className={`sighting-alert-card ${alert.alert_kind}`} key={alert.id}>
-          <div className="sighting-alert-pet">{alert.cover_image_url ? <img src={alert.cover_image_url} alt={alert.pet_name || "Mascota buscada"} /> : <span><PawPrint /></span>}<div><small>{alert.alert_kind === "sheltered" ? "Está a resguardo" : "Fue avistado"}</small><h3>{alert.pet_name || "Mascota buscada"}</h3><p>{formatDate(alert.created_at)}</p><em className={`sighting-state-${alert.status}`}>{sightingStatusLabel(alert.status)}</em></div></div>
-          <div className="sighting-alert-message"><MessageCircle /><p>{alert.message}</p></div>
-          <div className="sighting-alert-details">
-            {alert.location_text && <span><MapPin />{alert.location_text}</span>}
-            {alert.latitude !== null && alert.longitude !== null && <a href={`https://www.google.com/maps?q=${alert.latitude},${alert.longitude}`} target="_blank" rel="noreferrer"><MapPin />Abrir ubicación informada</a>}
-            {alert.contact_phone && <a href={`https://wa.me/${alert.contact_phone.replace(/\D/g, "")}`} target="_blank" rel="noreferrer"><Phone />{alert.contact_phone}</a>}
-            {alert.contact_social && <span><Smartphone />{alert.contact_social}</span>}
+      {/* AQUÍ ESTABA EL ERROR: Se eliminó el bloque duplicado y roto */}
+      {groupedSightingAlerts.length > 0 && (
+        <section className="sighting-alerts-dashboard" id="avisos-casos">
+          <header>
+            <div>
+              <span className="section-kicker">
+                <BellRing size={15} /> Avisos de la comunidad
+              </span>
+              <h2>Vieron una mascota que buscás</h2>
+              <p>
+                Estos datos son privados: solo vos y la administración pueden verlos.
+              </p>
+            </div>
+            <span className="sighting-alert-count">
+              {groupedSightingAlerts.length} mascotas con avisos
+            </span>
+          </header>
+
+          <div className="sighting-alert-list">
+            {groupedSightingAlerts.map((pet) => (
+              <article className="sighting-alert-card" key={pet.pet_post_id}>
+                <div className="sighting-alert-pet">
+                  {pet.cover_image_url ? (
+                    <img
+                      src={pet.cover_image_url}
+                      alt={pet.pet_name || "Mascota buscada"}
+                    />
+                  ) : (
+                    <span>
+                      <PawPrint />
+                    </span>
+                  )}
+                  <div>
+                    <small>
+                      {pet.alerts.length} avisos recibidos
+                    </small>
+                    <h3>
+                      {pet.pet_name || "Mascota buscada"}
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="sighting-alert-history">
+                  {pet.alerts.map((alert: any) => (
+                    <article
+                      className={`sighting-alert-item ${alert.alert_kind}`}
+                      key={alert.id}
+                    >
+                      <div className="sighting-alert-message">
+                        <MessageCircle />
+                        <p>{alert.message}</p>
+                      </div>
+
+                      <div className="sighting-alert-details">
+                        {alert.location_text && (
+                          <span>
+                            <MapPin />
+                            {alert.location_text}
+                          </span>
+                        )}
+
+                        {alert.latitude !== null && alert.longitude !== null && (
+                          <a
+                            href={`https://www.google.com/maps?q=${alert.latitude},${alert.longitude}`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <MapPin />
+                            Abrir ubicación informada
+                          </a>
+                        )}
+
+                        {alert.contact_phone && (
+                          <a
+                            href={`https://wa.me/${alert.contact_phone.replace(/\D/g, "")}`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <Phone />
+                            {alert.contact_phone}
+                          </a>
+                        )}
+
+                        {alert.contact_social && (
+                          <span>
+                            <Smartphone />
+                            {alert.contact_social}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="sighting-alert-date">
+                        {formatDate(alert.created_at)}
+                        {" · "}
+                        {sightingStatusLabel(alert.status)}
+                      </div>
+
+                      {!["resolved", "dismissed"].includes(alert.status) && (
+                        <div className="sighting-alert-actions">
+                          {alert.status === "new" && (
+                            <form action={updateSightingAlertStatus}>
+                              <input name="alert_id" type="hidden" value={alert.id} />
+                              <input name="status" type="hidden" value="contacted" />
+                              <button type="submit">
+                                <Phone /> Marcar contactado
+                              </button>
+                            </form>
+                          )}
+
+                          <form action={updateSightingAlertStatus}>
+                            <input name="alert_id" type="hidden" value={alert.id} />
+                            <input name="status" type="hidden" value="resolved" />
+                            <button type="submit">
+                              <CheckCircle2 /> Resolver
+                            </button>
+                          </form>
+
+                          <form action={updateSightingAlertStatus}>
+                            <input name="alert_id" type="hidden" value={alert.id} />
+                            <input name="status" type="hidden" value="dismissed" />
+                            <button type="submit">
+                              <Archive /> Descartar
+                            </button>
+                          </form>
+                        </div>
+                      )}
+                    </article>
+                  ))}
+                </div>
+              </article>
+            ))}
           </div>
-          {!alert.contact_phone && !alert.contact_social && <p className="sighting-alert-no-contact">La persona prefirió no dejar un medio de contacto.</p>}
-          {!['resolved', 'dismissed'].includes(alert.status) && <div className="sighting-alert-actions">{alert.status === "new" && <form action={updateSightingAlertStatus}><input name="alert_id" type="hidden" value={alert.id} /><input name="status" type="hidden" value="contacted" /><button type="submit"><Phone />Marcar contactado</button></form>}<form action={updateSightingAlertStatus}><input name="alert_id" type="hidden" value={alert.id} /><input name="status" type="hidden" value="resolved" /><button type="submit"><CheckCircle2 />Resolver</button></form><form action={updateSightingAlertStatus}><input name="alert_id" type="hidden" value={alert.id} /><input name="status" type="hidden" value="dismissed" /><button type="submit"><Archive />Descartar</button></form></div>}
-        </article>)}</div>
-      </section>}
+        </section>
+      )}
 
       {isRescuer && <section className="rescuer-dashboard-card"><div><span className="section-kicker"><BadgeCheck size={15} /> Perfil verificado</span><h2>{data.rescuer?.organization_name || data.profile.display_name}</h2><p>{data.rescuer?.description || "Completá la presentación de tu organización para que la comunidad conozca tu trabajo."}</p><small>{data.rescuer?.contact_area || "San Carlos de Bariloche"}</small></div><div className="rescuer-metrics"><span><strong>{data.counts.adoptions}</strong> adopciones</span><span><strong>{data.counts.campaigns}</strong> campañas</span><Link className="button button-light" href="/cuenta/perfil">Editar ficha</Link><Link className="button button-light" href="/rescatistas">Ver portal</Link></div></section>}
 
