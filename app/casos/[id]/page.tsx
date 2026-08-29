@@ -56,8 +56,24 @@ export default async function PetCaseDetailPage({ params, searchParams }: { para
               <div className="case-contact-card adoption"><HeartHandshake /><div><strong>¿Querés darle un hogar?</strong><span>Completá el filtro esencial para que el rescatista pueda evaluar la solicitud.</span></div><a className="button adoption-primary-action" href={`/adopciones/${pet.id}/solicitar`}>Quiero adoptar</a></div>
             ) : pet.post_type === "lost" ? (
               <>
-                {whatsappUrl && <div className="case-contact-card"><MessageCircle /><div><strong>Contactar a {contact?.publisher_name}</strong><span>El publicador autorizó mostrar este medio de contacto.</span></div><a className="button button-primary" href={whatsappUrl} target="_blank" rel="noreferrer">Enviar WhatsApp</a></div>}
-                <CaseSightingReport petPostId={pet.id} petName={pet.name || "esta mascota"} publisherName={contact?.publisher_name || pet.owner_display_name || "la persona que publicó el caso"} hasPublicWhatsapp={Boolean(whatsappUrl)} />
+                {account?.id === pet.owner_id ? (
+                  <div className="case-contact-card huellas-chat">
+                    <ShieldCheck />
+                    <div>
+                      <strong>Este es tu caso</strong>
+                      <span>Podés revisar los avisos y avistamientos recibidos desde tu panel.</span>
+                    </div>
+                    <Link className="button button-primary" href="/panel#avisos-casos">
+                      <MessageCircle />
+                      Ver avisos
+                    </Link>
+                  </div>
+                ) : (
+                  <>
+                    {whatsappUrl && <div className="case-contact-card"><MessageCircle /><div><strong>Contactar a {contact?.publisher_name}</strong><span>El publicador autorizó mostrar este medio de contacto.</span></div><a className="button button-primary" href={whatsappUrl} target="_blank" rel="noreferrer">Enviar WhatsApp</a></div>}
+                    <CaseSightingReport petPostId={pet.id} petName={pet.name || "esta mascota"} publisherName={contact?.publisher_name || pet.owner_display_name || "la persona que publicó el caso"} hasPublicWhatsapp={Boolean(whatsappUrl)} />
+                  </>
+                )}
               </>
             ) : whatsappUrl ? (
               <div className="case-contact-card"><MessageCircle /><div><strong>Contactar a {contact?.publisher_name}</strong><span>El publicador autorizó mostrar este medio de contacto.</span></div><a className="button button-primary" href={whatsappUrl} target="_blank" rel="noreferrer">Enviar WhatsApp</a></div>
