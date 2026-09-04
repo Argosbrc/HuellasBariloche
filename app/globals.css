@@ -2312,15 +2312,72 @@ img { max-width: 100%; }
 
 .notification-read-all { min-height: 34px; padding: 0 9px; display: inline-flex; align-items: center; gap: 5px; border: 1px solid #d5dfd9; border-radius: 9px; color: var(--green); background: white; font-size: 8px; font-weight: 900; cursor: pointer; }
 .notification-read-all svg { width: 14px; height: 14px; }
-.notification-list > article { position: relative; display: grid; grid-template-columns: minmax(0,1fr) 32px; align-items: center; border-bottom: 1px solid var(--line); }
-.notification-list > article:last-child { border-bottom: 0; }
-.notification-list > article.unread { border-left: 3px solid var(--coral); background: #fff9f5; }
-.notification-list > article > a { padding: 10px 9px; display: grid; gap: 3px; }
-.notification-list > article strong { color: var(--ink); font-size: 10px; }
-.notification-list > article span { color: var(--muted); font-size: 8px; line-height: 1.45; }
-.notification-list > article form { padding-right: 6px; }
-.notification-list > article button { width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid #d5dfd9; border-radius: 8px; color: var(--green); background: white; cursor: pointer; }
-.notification-list > article button svg { width: 13px; height: 13px; }
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notification-list > article {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.notification-list > article:last-child {
+  border-bottom: 0;
+}
+
+.notification-list > article.unread {
+  border-left: 3px solid var(--coral);
+  background: #fff9f5;
+}
+
+.notification-list > article > a {
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.notification-list strong {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.notification-list span {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.notification-list > article form {
+  flex-shrink: 0;
+}
+
+.notification-list > article button {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #d5dfd9;
+  border-radius: 10px;
+  color: var(--green);
+  background: white;
+  cursor: pointer;
+}
+
+.notification-list > article button svg {
+  width: 15px;
+  height: 15px;
+}
 
 .sighting-alert-pet em { width: max-content; margin-top: 2px; padding: 4px 6px; border-radius: 999px; color: var(--muted); background: #f0eee9; font-size: 7px; font-style: normal; font-weight: 900; }
 .sighting-alert-pet em.sighting-state-new { color: #a14d3e; background: var(--coral-soft); }

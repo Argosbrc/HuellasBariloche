@@ -92,27 +92,27 @@ export default async function PanelPage({
   const data = await loadAccountDashboard();
 
   const groupedSightingAlerts = Object.values(
-    data.sightingAlerts.reduce((groups, alert) => {
-      const key = alert.pet_post_id;
+  data.sightingAlerts.reduce((groups, alert) => {
+    const key = alert.pet_post_id;
 
-      if (!groups[key]) {
-        groups[key] = {
-          pet_post_id: alert.pet_post_id,
-          pet_name: alert.pet_name,
-          cover_image_url: alert.cover_image_url,
-          alerts: [],
-        };
-      }
+    if (!groups[key]) {
+      groups[key] = {
+        pet_post_id: alert.pet_post_id,
+        pet_name: alert.pet_name,
+        cover_image_url: alert.cover_image_url,
+        alerts: [],
+      };
+    }
 
-      groups[key].alerts.push(alert);
+    groups[key].alerts.push(alert);
 
-      return groups;
-    }, {} as Record<string, any>)
-  );
+    return groups;
+  }, {} as Record<string, any>)
+);
 
   const isRescuer = data.profile.role === "rescuer" || Boolean(data.rescuer);
   const isAdmin = data.profile.role === "admin";
-
+  
   return (
     <main className="inner-shell dashboard-shell">
       <SiteHeader inner />
@@ -153,12 +153,19 @@ export default async function PanelPage({
 
         <article className="dashboard-panel" id="notificaciones">
           <header><div><span>Centro de avisos</span><h2>Notificaciones</h2></div>{data.unreadNotifications > 0 ? <form action={markAllNotificationsRead}><button className="notification-read-all" type="submit"><CheckCheck />Marcar todas</button></form> : <BellRing />}</header>
-          {data.notifications.length ? <div className="notification-list">{data.notifications.slice(0, 8).map((item) => <article className={!item.read_at ? "unread" : ""} key={item.id}><Link href={item.link || "/panel"}><strong>{item.title}</strong><span>{item.body}</span></Link>{!item.read_at && <form action={markNotificationRead}><input name="notification_id" type="hidden" value={item.id} /><button aria-label="Marcar notificación como leída" type="submit"><Check /></button></form>}</article>)}</div> : <div className="dashboard-empty compact"><BellRing /><span>No hay notificaciones todavía.</span></div>}
+          {data.notifications.length ? 
+          <div className="notification-list">{data.notifications.slice(0, 8).map((item) => 
+          <article className={!item.read_at ? "unread" : ""} key={item.id}>
+            <Link href={item.link || "/panel"}>
+            <strong>{item.title}</strong>
+            <span>{item.body}</span>
+            </Link>{!item.read_at && <form action={markNotificationRead}><input name="notification_id" type="hidden" value={item.id} />
+            <button aria-label="Marcar notificación como leída" type="submit"><Check /></button></form>}</article>)}</div> : <div className="dashboard-empty compact"><BellRing /><span>No hay notificaciones todavía.</span></div>}
           <PushNotificationControl />
         </article>
       </section>
 
-      {/* AQUÍ ESTABA EL ERROR: Se eliminó el bloque duplicado y roto */}
+      
       {groupedSightingAlerts.length > 0 && (
         <section className="sighting-alerts-dashboard" id="avisos-casos">
           <header>
