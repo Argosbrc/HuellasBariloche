@@ -179,6 +179,7 @@ export type PetSightingAlert = {
   contact_phone: string | null;
   contact_social: string | null;
   reporter_name: string | null;
+  reporter_user_id: string | null;
   status: "new" | "contacted" | "resolved" | "dismissed" | string;
   created_at: string;
 };

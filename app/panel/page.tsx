@@ -254,6 +254,26 @@ export default async function PanelPage({
                             {alert.contact_social}
                           </span>
                         )}
+                        {alert.reporter_user_id && (
+  <form action={startSightingConversation}>
+    <input
+      type="hidden"
+      name="pet_post_id"
+      value={alert.pet_post_id}
+    />
+
+    <input
+      type="hidden"
+      name="reporter_user_id"
+      value={alert.reporter_user_id}
+    />
+
+    <button type="submit" className="button button-primary">
+      <MessageCircle />
+      Contactar por Huellas
+    </button>
+  </form>
+)}
                       </div>
 
                       <div className="sighting-alert-date">
