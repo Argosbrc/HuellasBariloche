@@ -2116,9 +2116,57 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .sighting-alerts-dashboard header p { margin: 0; color: var(--muted); font-size: 9px; }
 .sighting-alert-count { padding: 8px 10px; border-radius: 999px; color: #9a4f3f; background: var(--coral-soft); font-size: 8px; font-weight: 900; }
 .sighting-alert-list { display: grid; gap: 12px; }
-.sighting-alert-card { padding: 15px; display: grid; grid-template-columns: minmax(180px,.75fr) minmax(200px,1.1fr) minmax(210px,1fr); align-items: center; gap: 14px; border: 1px solid #e8e2d9; border-left: 4px solid var(--coral); border-radius: 16px; background: white; }
+.sighting-alert-history {
+  display: grid;
+  gap: 12px;
+}
+.sighting-alert-card {
+  padding: 20px;
+  display: grid;
+  gap: 18px;
+  border: 1px solid #e8e2d9;
+  border-left: 4px solid var(--coral);
+  border-radius: 18px;
+  background: white;
+}
 .sighting-alert-card.sheltered { border-left-color: var(--green); }
-.sighting-alert-pet { display: grid; grid-template-columns: 62px 1fr; align-items: center; gap: 10px; }
+.sighting-alert-pet {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.sighting-alert-item {
+  padding: 14px;
+  border-radius: 14px;
+  background: #faf7ef;
+  border: 1px solid #eee6db;
+}
+.sighting-alert-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.sighting-alert-actions button {
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid #d5dfd9;
+  background: white;
+  color: var(--green);
+  font-size: 9px;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.sighting-alert-actions svg {
+  width: 14px;
+  height: 14px;
+}
 .sighting-alert-pet > img,.sighting-alert-pet > span { width: 62px; height: 62px; display: grid; place-items: center; border-radius: 13px; object-fit: cover; color: var(--green); background: var(--mint); }
 .sighting-alert-pet > span svg { width: 24px; height: 24px; }
 .sighting-alert-pet > div { display: grid; gap: 3px; }
