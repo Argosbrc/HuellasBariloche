@@ -18,7 +18,7 @@ export default async function MedalsPage() {
   return <main className="inner-shell medal-page">
     <SiteHeader inner />
     <section className="medal-hero">
-      <div><span className="section-kicker"><Sparkles size={15} /> Comunidad que deja huella</span><h1>Medallas por ayudar, <em>no niveles.</em></h1><p>Cada reconocimiento corresponde a una colaboración concreta. Los avistamientos solo cuentan cuando la familia los confirma.</p><div><Link className="button button-primary" href="/panel#mis-medallas">Ver mis medallas</Link><Link className="button button-light" href="/encuentros">Conocer reencuentros</Link></div></div>
+      <div><span className="section-kicker"><Sparkles size={15} /> Comunidad que deja huella</span><h1>Medallas por ayudar</h1><p>Cada reconocimiento corresponde a una colaboración concreta. Los avistamientos solo cuentan cuando la familia los confirma.</p><div><Link className="button button-primary" href="/panel#mis-medallas">Ver mis medallas</Link><Link className="button button-light" href="/encuentros">Conocer reencuentros</Link></div></div>
       <aside><Medal /><strong>{data.badges.length}</strong><span>medallas disponibles</span><small>Reconocimiento transparente y verificable</small></aside>
     </section>
     <DataNotice configured={result.configured} empty={false} />

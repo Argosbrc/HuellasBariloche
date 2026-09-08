@@ -95,8 +95,12 @@ export async function POST(request: Request) {
     }
 
     if (postType === "lost") {
-      await deliverNearbyLostCasePush(String(data)).catch(() => 0);
-    }
+  console.log("PET POST CREATED:", data);
+
+  await deliverNearbyLostCasePush(String(data)).catch((error) =>
+    console.error("NEARBY PUSH ERROR", error)
+  );
+}
 
     return NextResponse.json({ id: data }, { status: 201 });
   } catch (error) {

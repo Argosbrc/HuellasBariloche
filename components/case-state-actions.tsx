@@ -47,7 +47,7 @@ export function CaseStateActions({ postId, postType, postState }: { postId: stri
     <div>
       {active && <StateForm className="button button-primary" icon={postType === "adoption" ? <HeartHandshake /> : <Home />} label={primaryLabel} postId={postId} reason={reason} state={primaryState} />}
       {active && <StateForm className="button button-light" icon={<LockKeyhole />} label="Cerrar sin resolución" postId={postId} reason={reason} state="closed" />}
-      <StateForm className="button button-ghost" icon={active ? <Archive /> : <CheckCircle2 />} label={active ? "Archivar directamente" : "Archivar caso"} postId={postId} reason={reason} state="archived" />
+      <StateForm className="button button-ghost-bordered" icon={active ? <Archive /> : <CheckCircle2 />} label={active ? "Archivar directamente" : "Archivar caso"} postId={postId} reason={reason} state="archived" />
     </div>
   </div>;
 }

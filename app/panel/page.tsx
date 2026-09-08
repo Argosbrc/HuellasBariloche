@@ -27,6 +27,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SignOutButton } from "@/components/sign-out-button";
 import { loadAccountDashboard } from "@/lib/account";
+import type { PetSightingAlert } from "@/lib/types";
 import { submitRescuerApplication, withdrawRescuerApplication } from "@/app/cuenta/actions";
 import { closeTransitRequest, reviewTransitOffer } from "@/app/transitos/actions";
 import { reviewAdoptionApplication } from "@/app/adopciones/actions";
@@ -92,23 +93,23 @@ export default async function PanelPage({
   const data = await loadAccountDashboard();
 
   const groupedSightingAlerts = Object.values(
-  data.sightingAlerts.reduce((groups, alert) => {
-    const key = alert.pet_post_id;
+    data.sightingAlerts.reduce((groups, alert) => {
+      const key = alert.pet_post_id;
 
-    if (!groups[key]) {
-      groups[key] = {
-        pet_post_id: alert.pet_post_id,
-        pet_name: alert.pet_name,
-        cover_image_url: alert.cover_image_url,
-        alerts: [],
-      };
-    }
+      if (!groups[key]) {
+        groups[key] = {
+          pet_post_id: alert.pet_post_id,
+          pet_name: alert.pet_name,
+          cover_image_url: alert.cover_image_url,
+          alerts: [] as PetSightingAlert[],
+        };
+      }
 
-    groups[key].alerts.push(alert);
+      groups[key].alerts.push(alert);
 
-    return groups;
-  }, {} as Record<string, any>)
-);
+      return groups;
+    }, {} as Record<string, { pet_post_id: string; pet_name: string | null; cover_image_url: string | null; alerts: PetSightingAlert[] }>)
+  );
 
   const isRescuer = data.profile.role === "rescuer" || Boolean(data.rescuer);
   const isAdmin = data.profile.role === "admin";
@@ -127,10 +128,10 @@ export default async function PanelPage({
       {(params.ok || params.error) && <div className={params.error ? "admin-feedback admin-feedback-error dashboard-feedback" : "admin-feedback dashboard-feedback"}>{params.error ?? params.ok}</div>}
 
       <section className="dashboard-stats">
-        <article><PawPrint /><span>Mis publicaciones</span><strong>{data.counts.posts}</strong><small>{data.counts.activePosts} activas</small></article>
-        <article><BellRing /><span>Notificaciones</span><strong>{data.unreadNotifications}</strong><small>sin leer</small></article>
-        <article><MessageCircle /><span>Conversaciones</span><strong>{data.conversationCount}</strong><small><Link href="/conversaciones">Abrir bandeja</Link></small></article>
-        <article><HeartHandshake /><span>Puntos solidarios</span><strong>{data.profile.points}</strong><small>reputación</small></article>
+        <article><PawPrint size={22} /><span>Mis publicaciones</span><strong>{data.counts.posts}</strong><small>{data.counts.activePosts} activas</small></article>
+        <article><BellRing size={22} /><span>Notificaciones</span><strong>{data.unreadNotifications}</strong><small>sin leer</small></article>
+        <article><MessageCircle size={22} /><span>Conversaciones</span><strong>{data.conversationCount}</strong><small><Link href="/conversaciones">Abrir bandeja</Link></small></article>
+        <article><HeartHandshake size={22} /><span>Puntos solidarios</span><strong>{data.profile.points}</strong><small>reputación</small></article>
       </section>
 
       <NearbyAlertControl initial={data.nearbyAlerts} />
@@ -152,15 +153,47 @@ export default async function PanelPage({
         </article>
 
         <article className="dashboard-panel" id="notificaciones">
-          <header><div><span>Centro de avisos</span><h2>Notificaciones</h2></div>{data.unreadNotifications > 0 ? <form action={markAllNotificationsRead}><button className="notification-read-all" type="submit"><CheckCheck />Marcar todas</button></form> : <BellRing />}</header>
-          {data.notifications.length ? 
-          <div className="notification-list">{data.notifications.slice(0, 8).map((item) => 
-          <article className={!item.read_at ? "unread" : ""} key={item.id}>
-            <Link href={item.link || "/panel"}>
-            <strong>{item.title}</strong>
-            <span>{item.body}</span>
-            </Link>{!item.read_at && <form action={markNotificationRead}><input name="notification_id" type="hidden" value={item.id} />
-            <button aria-label="Marcar notificación como leída" type="submit"><Check /></button></form>}</article>)}</div> : <div className="dashboard-empty compact"><BellRing /><span>No hay notificaciones todavía.</span></div>}
+          <header>
+            <div>
+              <span>Centro de avisos</span>
+              <h2>Notificaciones</h2>
+            </div>
+            {data.unreadNotifications > 0 ? (
+              <form action={markAllNotificationsRead}>
+                <button className="notification-read-all" type="submit">
+                  <CheckCheck size={15} />
+                  Marcar todas
+                </button>
+              </form>
+            ) : (
+              <BellRing size={20} />
+            )}
+          </header>
+          {data.notifications.length ? (
+            <div className="notification-list">
+              {data.notifications.slice(0, 8).map((item) => (
+                <article className={!item.read_at ? "unread" : ""} key={item.id}>
+                  <Link href={item.link || "/panel#notificaciones"}>
+                    <strong>{item.title}</strong>
+                    <span>{item.body}</span>
+                  </Link>
+                  {!item.read_at && (
+                    <form action={markNotificationRead}>
+                      <input name="notification_id" type="hidden" value={item.id} />
+                      <button aria-label="Marcar notificación como leída" type="submit">
+                        <Check size={14} />
+                      </button>
+                    </form>
+                  )}
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="dashboard-empty compact">
+              <BellRing size={28} />
+              <span>No hay notificaciones todavía.</span>
+            </div>
+          )}
           <PushNotificationControl />
         </article>
       </section>
@@ -185,7 +218,10 @@ export default async function PanelPage({
 
           <div className="sighting-alert-list">
             {groupedSightingAlerts.map((pet) => (
-              <article className="sighting-alert-card" key={pet.pet_post_id}>
+              <article
+                className={`sighting-alert-card${pet.alerts.some((a: PetSightingAlert) => a.alert_kind === "sheltered") ? " sheltered" : ""}`}
+                key={pet.pet_post_id}
+              >
                 <div className="sighting-alert-pet">
                   {pet.cover_image_url ? (
                     <img
@@ -199,118 +235,107 @@ export default async function PanelPage({
                   )}
                   <div>
                     <small>
-                      {pet.alerts.length} avisos recibidos
+                      {pet.alerts.length} {pet.alerts.length === 1 ? "aviso recibido" : "avisos recibidos"}
                     </small>
-                    <h3>
-                      {pet.pet_name || "Mascota buscada"}
-                    </h3>
+                    <h3>{pet.pet_name || "Mascota buscada"}</h3>
                   </div>
                 </div>
 
                 <div className="sighting-alert-history">
-                  {pet.alerts.map((alert: any) => (
+                  {pet.alerts.map((alert: PetSightingAlert) => (
                     <article
-                      className={`sighting-alert-item ${alert.alert_kind}`}
+                      className={`sighting-alert-item status-${alert.status}`}
                       key={alert.id}
                     >
-                      <div className="sighting-alert-message">
-                        <MessageCircle />
-                        <p>{alert.message}</p>
+                      <span className="sighting-alert-label">
+                        <BellRing size={14} />
+                        {alert.alert_kind === "sheltered" ? "Mascota a resguardo" : "Aviso de avistamiento"}
+                      </span>
+
+                      <div className="sighting-alert-main">
+                        <div className="sighting-alert-icon">
+                          <MessageCircle />
+                        </div>
+
+                        <div className="sighting-alert-content">
+                          <strong>{alert.message}</strong>
+
+                          <div className="sighting-meta">
+                            {alert.location_text && (
+                              <span>
+                                <MapPin size={14} />
+                                {alert.location_text}
+                              </span>
+                            )}
+
+                            <span>
+                              <Clock3 size={14} />
+                              {formatDate(alert.created_at)}
+                            </span>
+
+                            {alert.reporter_name && (
+                              <span>
+                                <CircleUserRound size={14} />
+                                {alert.reporter_name}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <span className="sighting-status">
+                          {sightingStatusLabel(alert.status)}
+                        </span>
                       </div>
 
-                      <div className="sighting-alert-details">
-                        {alert.location_text && (
-                          <span>
-                            <MapPin />
-                            {alert.location_text}
-                          </span>
-                        )}
-
-                        {alert.latitude !== null && alert.longitude !== null && (
+                      <div className="sighting-alert-actions">
+                        {alert.reporter_user_id ? (
+                          <form action={startSightingConversation}>
+                            <input type="hidden" name="pet_post_id" value={pet.pet_post_id} />
+                            <input type="hidden" name="reporter_user_id" value={alert.reporter_user_id} />
+                            <button className="contact-button" type="submit">
+                              <MessageCircle size={16} />
+                              Contactar persona
+                            </button>
+                          </form>
+                        ) : alert.contact_phone ? (
                           <a
-                            href={`https://www.google.com/maps?q=${alert.latitude},${alert.longitude}`}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            <MapPin />
-                            Abrir ubicación informada
-                          </a>
-                        )}
-
-                        {alert.contact_phone && (
-                          <a
+                            className="sighting-alert-contact-alt"
                             href={`https://wa.me/${alert.contact_phone.replace(/\D/g, "")}`}
-                            target="_blank"
                             rel="noreferrer"
+                            target="_blank"
                           >
-                            <Phone />
-                            {alert.contact_phone}
+                            <Phone size={15} />
+                            Contactar por WhatsApp
                           </a>
-                        )}
-
-                        {alert.contact_social && (
-                          <span>
-                            <Smartphone />
+                        ) : alert.contact_social ? (
+                          <span className="sighting-alert-contact-alt">
+                            <MessageCircle size={15} />
                             {alert.contact_social}
                           </span>
+                        ) : null}
+
+                        {alert.status !== "resolved" && (
+                          <form action={updateSightingAlertStatus}>
+                            <input type="hidden" name="alert_id" value={alert.id} />
+                            <input type="hidden" name="status" value="resolved" />
+                            <button type="submit">
+                              <CheckCircle2 size={15} />
+                              Resolver
+                            </button>
+                          </form>
                         )}
-                        {alert.reporter_user_id && (
-  <form action={startSightingConversation}>
-    <input
-      type="hidden"
-      name="pet_post_id"
-      value={alert.pet_post_id}
-    />
 
-    <input
-      type="hidden"
-      name="reporter_user_id"
-      value={alert.reporter_user_id}
-    />
-
-    <button type="submit" className="button button-primary">
-      <MessageCircle />
-      Contactar por Huellas
-    </button>
-  </form>
-)}
-                      </div>
-
-                      <div className="sighting-alert-date">
-                        {formatDate(alert.created_at)}
-                        {" · "}
-                        {sightingStatusLabel(alert.status)}
-                      </div>
-
-                      {!["resolved", "dismissed"].includes(alert.status) && (
-                        <div className="sighting-alert-actions">
-                          {alert.status === "new" && (
-                            <form action={updateSightingAlertStatus}>
-                              <input name="alert_id" type="hidden" value={alert.id} />
-                              <input name="status" type="hidden" value="contacted" />
-                              <button type="submit">
-                                <Phone /> Marcar contactado
-                              </button>
-                            </form>
-                          )}
-
+                        {alert.status !== "dismissed" && (
                           <form action={updateSightingAlertStatus}>
-                            <input name="alert_id" type="hidden" value={alert.id} />
-                            <input name="status" type="hidden" value="resolved" />
+                            <input type="hidden" name="alert_id" value={alert.id} />
+                            <input type="hidden" name="status" value="dismissed" />
                             <button type="submit">
-                              <CheckCircle2 /> Resolver
+                              <Archive size={15} />
+                              Descartar
                             </button>
                           </form>
-
-                          <form action={updateSightingAlertStatus}>
-                            <input name="alert_id" type="hidden" value={alert.id} />
-                            <input name="status" type="hidden" value="dismissed" />
-                            <button type="submit">
-                              <Archive /> Descartar
-                            </button>
-                          </form>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </article>
                   ))}
                 </div>

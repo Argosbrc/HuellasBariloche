@@ -93,8 +93,6 @@ export async function getOptionalAccountProfile() {
 
 export async function loadAccountDashboard() {
   const { supabase, profile, email } = await requireAccount();
-  console.log("PANEL USER", profile.id, profile.display_name, email);
-
   const [
     contactsResult,
     moderationResult,
@@ -153,12 +151,7 @@ export async function loadAccountDashboard() {
   }
 
   const posts = (postsResult.data ?? []) as AccountPost[];
-  console.log("NOTIFICATIONS RESULT", {
-  data: notificationsResult.data,
-  error: notificationsResult.error,
-});
   const notifications = (notificationsResult.data ?? []) as AccountNotification[];
-  console.log("NOTIFICATIONS DATA", notifications);
   const transit = transitResult.error || !transitResult.data
     ? { requests: [], offers_made: [] }
     : transitResult.data as TransitDashboard;
