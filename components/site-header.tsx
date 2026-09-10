@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Bell,
   CircleUserRound,
   Coffee,
   Download,
@@ -22,60 +23,168 @@ const navigation = [
   ["/datos-utiles", "Datos útiles"],
 ] as const;
 
-export function SiteHeader({ inner = false }: { inner?: boolean }) {
+export function SiteHeader({
+  inner = false,
+  unreadNotifications = 0,
+}: { inner?: boolean;
+  unreadNotifications?: number;
+ }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
   return (
     <header className={inner ? "inner-topbar" : "topbar"}>
+
       <Link className="brand" href="/" aria-label="Huellas Bariloche, inicio">
-        <span className="brand-mark"><PawPrint size={23} strokeWidth={2.5} /></span>
-        <span><strong>Huellas</strong><small>Bariloche</small></span>
+        <span className="brand-mark">
+          <PawPrint size={23} strokeWidth={2.5} />
+        </span>
+
+        <span>
+          <strong>Huellas</strong>
+          <small>Bariloche</small>
+        </span>
       </Link>
+
 
       <nav className="desktop-nav" aria-label="Navegación principal">
         {navigation.map(([href, label]) => (
-          <a className={pathname === href ? "nav-active" : undefined} href={href} key={href}>
+          <a
+            className={pathname === href ? "nav-active" : undefined}
+            href={href}
+            key={href}
+          >
             {label}
           </a>
         ))}
       </nav>
 
+
       <div className="header-actions">
-        <a className="button button-cafecito" href="https://cafecito.app/argosit" target="_blank" rel="noreferrer">
-          <Coffee size={17} />Cafecito
+
+        <a
+          className="header-notification-button"
+          href="/panel#notificaciones"
+          aria-label="Notificaciones"
+        >
+          <Bell size={21} />
+
+         {unreadNotifications > 0 && (
+  <span className="notification-badge">
+    {unreadNotifications > 9 ? "9+" : unreadNotifications}
+  </span>
+)}
         </a>
+
+
         <a className="button button-ghost" href="/panel">
-          <CircleUserRound size={18} />Mi panel
+          <CircleUserRound size={18} />
+          Mi cuenta
         </a>
-        <a className="button button-primary" href="/publicar">
-          <PawPrint size={17} />Publicar caso
+
+
+        <a
+          className="button button-cafecito"
+          href="https://cafecito.app/argosit"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Coffee size={17} />
+          Cafecito
         </a>
+
       </div>
 
-      <button
-        className="menu-button"
-        type="button"
-        aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
-        aria-expanded={menuOpen}
-        onClick={() => setMenuOpen((value) => !value)}
-      >
-        {menuOpen ? <X /> : <Menu />}
-      </button>
+
+      <div className="header-mobile-actions">
+
+        <a
+          className="header-notification-button"
+          href="/panel#notificaciones"
+          aria-label="Notificaciones"
+        >
+          <Bell size={21} />
+
+          <span className="notification-badge">
+            3
+          </span>
+        </a>
+
+
+        <button
+          className="menu-button"
+          type="button"
+          aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((value) => !value)}
+        >
+          {menuOpen ? <X /> : <Menu />}
+        </button>
+
+      </div>
+
 
       {menuOpen && (
         <nav className="mobile-nav" aria-label="Navegación móvil">
-          {navigation.map(([href, label]) => (
-            <a href={href} key={href} onClick={() => setMenuOpen(false)}>{label}</a>
-          ))}
-          <a className="button button-cafecito cafecito-mobile" href="https://cafecito.app/argosit" target="_blank" rel="noreferrer">
-            <Coffee size={17} />Invitame un Cafecito
+
+          <a
+            href="/panel#notificaciones"
+            onClick={() => setMenuOpen(false)}
+          >
+            🔔 Notificaciones
           </a>
-          <a href="/panel" onClick={() => setMenuOpen(false)}>Mi panel</a>
-          <PwaInstallButton className="mobile-install-button" icon={<Download size={17} />} label="Instalar Huellas" onInstalled={() => setMenuOpen(false)} />
-          <a className="button button-primary" href="/publicar" onClick={() => setMenuOpen(false)}>Publicar caso</a>
+
+
+          <a
+            href="/panel"
+            onClick={() => setMenuOpen(false)}
+          >
+            👤 Mi cuenta
+          </a>
+
+
+          <a
+            className="button button-primary"
+            href="/publicar"
+            onClick={() => setMenuOpen(false)}
+          >
+            <PawPrint size={17} />
+            Publicar caso
+          </a>
+
+
+          {navigation.map(([href, label]) => (
+            <a
+              href={href}
+              key={href}
+              onClick={() => setMenuOpen(false)}
+            >
+              {label}
+            </a>
+          ))}
+
+
+          <a
+            className="button button-cafecito cafecito-mobile"
+            href="https://cafecito.app/argosit"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Coffee size={17} />
+            Invitame un Cafecito
+          </a>
+
+
+          <PwaInstallButton
+            className="mobile-install-button"
+            icon={<Download size={17} />}
+            label="Instalar Huellas"
+            onInstalled={() => setMenuOpen(false)}
+          />
+
         </nav>
       )}
+
     </header>
   );
 }

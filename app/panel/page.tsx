@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { SiteHeaderWrapper } from "@/components/site-header-wrapper";
 import { SignOutButton } from "@/components/sign-out-button";
 import { loadAccountDashboard } from "@/lib/account";
 import type { PetSightingAlert } from "@/lib/types";
@@ -116,7 +116,7 @@ export default async function PanelPage({
   
   return (
     <main className="inner-shell dashboard-shell">
-      <SiteHeader inner />
+      <SiteHeaderWrapper inner />
       <section className="dashboard-hero">
         <div className="dashboard-person">
           {data.profile.avatar_url ? <img src={data.profile.avatar_url} alt="Foto de perfil" /> : <span><CircleUserRound /></span>}

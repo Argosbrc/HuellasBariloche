@@ -14,7 +14,7 @@ import { offerTransitHome } from "@/app/transitos/actions";
 import { DataNotice } from "@/components/data-notice";
 import { RescuerDirectory } from "@/components/rescuer-directory";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { SiteHeaderWrapper } from "@/components/site-header-wrapper";
 import { getOptionalAccountProfile } from "@/lib/account";
 import { getRescuers, getTransitRequests, storagePublicUrl } from "@/lib/public-api";
 import { createClient } from "@/lib/supabase/server";
@@ -52,7 +52,7 @@ export default async function RescuersPage({
 
   return (
     <main className="inner-shell rescuers-shell">
-      <SiteHeader inner />
+      <SiteHeaderWrapper inner />
       <section className="inner-hero rescuers-hero">
         <div><span className="section-kicker">Red verificada</span><h1>Ayudar también es<em>abrir las puertas.</em></h1><p>Encontrá búsquedas de hogares de tránsito y conocé a los rescatistas y organizaciones aprobadas que sostienen cada rescate.</p></div>
         <div className="rescuer-trust-panel"><BadgeCheck /><div><strong>Una sola red solidaria</strong><span>Los perfiles son revisados y los datos de cada ofrecimiento de tránsito permanecen privados.</span></div><ShieldCheck /></div>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { BadgeIcon } from "@/components/badge-icon";
 import { DataNotice } from "@/components/data-notice";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { SiteHeaderWrapper } from "@/components/site-header-wrapper";
 import { getCommunityMedalBoard } from "@/lib/public-api";
 
 export const dynamic = "force-dynamic";
@@ -16,7 +16,7 @@ export default async function MedalsPage() {
   const result = await getCommunityMedalBoard();
   const data = result.data ?? { badges: [], ranking: [], recent_awards: [], my_profile_id: null, my_badge_ids: [] };
   return <main className="inner-shell medal-page">
-    <SiteHeader inner />
+    <SiteHeaderWrapper inner />
     <section className="medal-hero">
       <div><span className="section-kicker"><Sparkles size={15} /> Comunidad que deja huella</span><h1>Medallas por ayudar</h1><p>Cada reconocimiento corresponde a una colaboración concreta. Los avistamientos solo cuentan cuando la familia los confirma.</p><div><Link className="button button-primary" href="/panel#mis-medallas">Ver mis medallas</Link><Link className="button button-light" href="/encuentros">Conocer reencuentros</Link></div></div>
       <aside><Medal /><strong>{data.badges.length}</strong><span>medallas disponibles</span><small>Reconocimiento transparente y verificable</small></aside>

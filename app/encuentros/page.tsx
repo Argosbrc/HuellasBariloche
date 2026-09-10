@@ -2,7 +2,7 @@ import { ArrowRight, HeartHandshake, House, MapPin, PawPrint, Sparkles, UsersRou
 import Link from "next/link";
 import { DataNotice } from "@/components/data-notice";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { SiteHeaderWrapper } from "@/components/site-header-wrapper";
 import { getPublicReunions, storagePublicUrl } from "@/lib/public-api";
 
 export const dynamic = "force-dynamic";
@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export default async function EncountersPage() {
   const result = await getPublicReunions();
   return <main className="inner-shell reunion-page">
-    <SiteHeader inner />
+    <SiteHeaderWrapper inner />
     <section className="reunion-hero"><div><span className="section-kicker"><House size={15} /> Encuentros</span><h1>Historias que vuelven <em>a casa.</em></h1><p>Este espacio celebra a las mascotas reunidas con su familia y a cada persona que miró, avisó, compartió o ayudó.</p><Link className="button button-primary" href="/casos">Ayudar en una búsqueda <ArrowRight /></Link></div><aside><Sparkles /><strong>Tu atención puede cambiar una historia</strong><span>Cuando un aviso confirmado ayuda en un reencuentro, la persona recibe un agradecimiento y su medalla.</span></aside></section>
     <DataNotice configured={result.configured} empty={result.data.length === 0} />
     <section className="reunion-content"><header><div><span className="section-kicker">Volvieron con su familia</span><h2>Cada encuentro es de toda la comunidad</h2></div><Link href="/medallas">Ver medallero</Link></header>{result.data.length ? <div className="reunion-grid">{result.data.map((item) => {

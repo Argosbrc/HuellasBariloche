@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 import { AdminSubmitButton } from "@/components/admin-submit-button";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { SiteHeaderWrapper } from "@/components/site-header-wrapper";
 import {
   type AdminReport,
   loadAdminDashboard,
@@ -76,7 +76,7 @@ export default async function AdminPage({
 
   return (
     <main className="inner-shell admin-page-shell">
-      <SiteHeader inner />
+      <SiteHeaderWrapper inner />
       <section className="admin-hero">
         <div>
           <span className="section-kicker"><ShieldCheck size={15} /> Acceso administrativo</span>

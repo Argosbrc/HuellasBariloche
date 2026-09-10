@@ -20,7 +20,6 @@ import {
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
 import { CommunityMapShell } from "@/components/community-map-shell";
 import type { HomeSummary, PublicPetCase } from "@/lib/types";
 
@@ -157,7 +156,6 @@ export function HomeClient({
 
   return (
     <main className="site-shell">
-      <SiteHeader />
 
       <section className="hero home-discovery-hero" id="inicio">
         <div className="hero-copy">

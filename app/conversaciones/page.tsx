@@ -1,7 +1,7 @@
 import { Archive, ArrowRight, MessageCircle, PawPrint, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { SiteHeaderWrapper } from "@/components/site-header-wrapper";
 import { loadConversationInbox } from "@/lib/conversations";
 
 export const dynamic = "force-dynamic";
@@ -14,7 +14,7 @@ function formatDate(value: string | null) {
 export default async function ConversationsPage({ searchParams }: { searchParams: Promise<{ ok?: string; error?: string }> }) {
   const [data, params] = await Promise.all([loadConversationInbox(), searchParams]);
   return <main className="inner-shell conversation-shell">
-    <SiteHeader inner />
+    <SiteHeaderWrapper inner />
     <section className="conversation-hero">
       <div><span className="section-kicker"><MessageCircle /> Mensajería protegida</span><h1>Tus conversaciones</h1><p>Coordiná la ayuda dentro de Huellas sin publicar tu teléfono. Solo las dos personas del hilo pueden leer los mensajes.</p></div>
       <div className="conversation-privacy"><ShieldCheck /><span><strong>Privadas por diseño</strong><small>Podés bloquear, archivar o denunciar cuando lo necesites.</small></span></div>

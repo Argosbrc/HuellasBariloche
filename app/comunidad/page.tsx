@@ -13,7 +13,7 @@ import Link from "next/link";
 import { CommunityFeed } from "@/components/community-feed";
 import { DataNotice } from "@/components/data-notice";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { SiteHeaderWrapper } from "@/components/site-header-wrapper";
 import { getOptionalAccountProfile } from "@/lib/account";
 import { getCommunityData, storagePublicUrl } from "@/lib/public-api";
 
@@ -39,7 +39,7 @@ export default async function CommunityPage() {
 
   return (
     <main className="inner-shell">
-      <SiteHeader inner />
+      <SiteHeaderWrapper inner />
       <section className="inner-hero community-hero">
         <div><span className="section-kicker">Comunidad Huellas</span><h1>Cuando el barrio se organiza,<em>la ayuda llega.</em></h1><p>Un espacio para pedir una mano, convocar personas, ofrecer recursos y compartir información útil para los animales de Bariloche.</p><Link className="button button-white button-large" href={publishHref}><MessageCircle size={18} />Publicar en Comunidad</Link></div>
         <div className="community-stats-panel"><div><PawPrint /><strong>{posts.data.length}</strong><span>publicaciones visibles</span></div><div><ShieldCheck /><strong>{campaigns.data.length}</strong><span>campañas activas</span></div><div><Sparkles /><strong>4</strong><span>formas de ayudar</span></div></div>

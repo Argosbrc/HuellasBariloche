@@ -2,7 +2,7 @@ import { BookOpenCheck, Stethoscope } from "lucide-react";
 import { DataNotice } from "@/components/data-notice";
 import { GuideExplorer } from "@/components/guide-explorer";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { SiteHeaderWrapper } from "@/components/site-header-wrapper";
 import { getServices } from "@/lib/public-api";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +11,7 @@ export default async function UsefulDataPage() {
   const result = await getServices();
   return (
     <main className="inner-shell">
-      <SiteHeader inner />
+      <SiteHeaderWrapper inner />
       <section className="inner-hero services-hero guide-hero">
         <div><span className="section-kicker">Datos útiles</span><h1>Información clara<em>cuando la necesitás.</em></h1><p>Veterinarias, guardias, pet shops, alimento, farmacias y otros servicios de Bariloche, con horarios y formas de contacto.</p></div>
         <div className="emergency-banner"><Stethoscope size={25} /><div><span>¿Es una urgencia?</span><strong>Filtrá guardias, atención 24 h y visitas a domicilio.</strong></div><a className="button button-white" href="#directorio">Buscar ahora</a></div>

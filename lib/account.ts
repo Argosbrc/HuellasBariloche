@@ -90,6 +90,19 @@ export async function getOptionalAccountProfile() {
     .maybeSingle();
   return profile ?? null;
 }
+export async function getUnreadNotificationCount() {
+  const { supabase, profile } = await requireAccount();
+
+  const { count, error } = await supabase
+    .from("notifications")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", profile.id)
+    .is("read_at", null);
+
+  if (error) return 0;
+
+  return count ?? 0;
+}
 
 export async function loadAccountDashboard() {
   const { supabase, profile, email } = await requireAccount();

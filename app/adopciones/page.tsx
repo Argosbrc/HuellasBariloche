@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { DataNotice } from "@/components/data-notice";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { SiteHeaderWrapper } from "@/components/site-header-wrapper";
 import { getAdoptions, storagePublicUrl } from "@/lib/public-api";
 
 export const dynamic = "force-dynamic";
@@ -30,7 +30,7 @@ export default async function AdoptionsPage() {
   const result = await getAdoptions();
   return (
     <main className="inner-shell">
-      <SiteHeader inner />
+      <SiteHeaderWrapper inner />
       <section className="inner-hero adoption-hero">
         <div><span className="section-kicker">Adopción responsable</span><h1>Una nueva historia<em>empieza en casa.</em></h1><p>Conocé animales publicados por rescatistas verificados y encontrá una adopción compatible con tu familia.</p></div>
         <div className="adoption-illustration"><span className="adoption-halo" /><Dog className="adoption-dog" size={125} /><Cat className="adoption-cat" size={92} /><div><ShieldCheck size={22} /><strong>Publicaciones verificadas</strong><small>Información sanitaria y requisitos de hogar.</small></div></div>
