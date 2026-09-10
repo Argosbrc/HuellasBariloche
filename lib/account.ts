@@ -126,7 +126,7 @@ export async function loadAccountDashboard() {
     supabase.from("account_moderation").select("status, reason, suspended_until").eq("user_id", profile.id).maybeSingle(),
     supabase.from("cities").select("id, name, province").eq("is_active", true).order("name"),
     supabase.from("pet_posts").select("id, post_type, post_state, status, moderation_status, name, species, zone_name, photo_paths, created_at, updated_at").eq("owner_id", profile.id).order("created_at", { ascending: false }).limit(50),
-    supabase.from("notifications").select("id, title, body, link, read_at, created_at").eq("user_id", profile.id).order("created_at", { ascending: false }).limit(10),
+    supabase.from("notifications").select("id, title, body, link, read_at, created_at").eq("user_id", profile.id) .is("read_at", null).order("created_at", { ascending: false }).limit(10),
     supabase.from("conversation_members").select("conversation_id, last_read_at, archived_at").eq("user_id", profile.id).is("archived_at", null),
     supabase.from("rescuer_applications").select("id, applicant_name, phone, organization_name, social_url, message, status, review_note, created_at, reviewed_at").eq("user_id", profile.id).maybeSingle(),
     supabase.from("rescuer_profiles").select("id, organization_name, description, contact_area, social_url, verification_status, city_id, created_at").eq("user_id", profile.id).maybeSingle(),

@@ -1,6 +1,4 @@
--- Huellas Bariloche
--- Migracion 025: reporter_user_id en avisos y conversacion directa desde avistamientos.
--- Requiere 001 a 024.
+
 
 begin;
 
@@ -59,10 +57,13 @@ as $function$
         ) order by sighting.created_at desc
       )
       from public.pet_sighting_alerts_020 sighting
-      join public.pet_posts post on post.id = sighting.pet_post_id
-      left join public.profiles reporter on reporter.id = sighting.reporter_user_id
-      where sighting.owner_user_id = (select auth.uid())
-        or private.is_admin()
+join public.pet_posts post on post.id = sighting.pet_post_id
+left join public.profiles reporter on reporter.id = sighting.reporter_user_id
+where (
+  sighting.owner_user_id = (select auth.uid())
+  or private.is_admin()
+)
+and sighting.status <> 'dismissed'
     ), '[]'::jsonb)
   end;
 $function$;
