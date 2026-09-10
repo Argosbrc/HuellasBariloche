@@ -128,11 +128,39 @@ export default async function PanelPage({
       {(params.ok || params.error) && <div className={params.error ? "admin-feedback admin-feedback-error dashboard-feedback" : "admin-feedback dashboard-feedback"}>{params.error ?? params.ok}</div>}
 
       <section className="dashboard-stats">
-        <article><PawPrint size={22} /><span>Mis publicaciones</span><strong>{data.counts.posts}</strong><small>{data.counts.activePosts} activas</small></article>
-        <article><BellRing size={22} /><span>Notificaciones</span><strong>{data.unreadNotifications}</strong><small>sin leer</small></article>
-        <article><MessageCircle size={22} /><span>Conversaciones</span><strong>{data.conversationCount}</strong><small><Link href="/conversaciones">Abrir bandeja</Link></small></article>
-        <article><HeartHandshake size={22} /><span>Puntos solidarios</span><strong>{data.profile.points}</strong><small>reputación</small></article>
-      </section>
+
+  <Link href="#mis-publicaciones" className="dashboard-stat-card">
+    <PawPrint size={22} />
+    <span>Mis publicaciones</span>
+    <strong>{data.counts.posts}</strong>
+    <small>{data.counts.activePosts} activas</small>
+  </Link>
+
+
+  <Link href="#notificaciones" className="dashboard-stat-card">
+    <BellRing size={22} />
+    <span>Notificaciones</span>
+    <strong>{data.unreadNotifications}</strong>
+    <small>sin leer</small>
+  </Link>
+
+
+  <Link href="/conversaciones" className="dashboard-stat-card">
+    <MessageCircle size={22} />
+    <span>Conversaciones</span>
+    <strong>{data.conversationCount}</strong>
+    <small>Abrir bandeja</small>
+  </Link>
+
+
+  <Link href="#mis-medallas" className="dashboard-stat-card">
+    <HeartHandshake size={22} />
+    <span>Puntos solidarios</span>
+    <strong>{data.profile.points}</strong>
+    <small>reputación</small>
+  </Link>
+
+</section>
 
       <NearbyAlertControl initial={data.nearbyAlerts} />
 
@@ -147,7 +175,7 @@ export default async function PanelPage({
       </section>
 
       <section className="dashboard-grid">
-        <article className="dashboard-panel dashboard-main-panel">
+        <article id="notificaciones" className="dashboard-panel dashboard-main-panel">
           <header><div><span>Actividad propia</span><h2>Mis casos</h2></div><Link href="/publicar">Publicar caso</Link></header>
           {data.posts.length ? <div className="dashboard-list case-dashboard-list">{data.posts.map((post) => <article key={post.id}>{post.photo_paths?.[0] ? <img src={post.photo_paths[0]} alt={post.name || "Mascota publicada"} /> : <span className="dashboard-list-icon"><PawPrint size={17} /></span>}<div><strong>{post.name || `${post.species} sin nombre`}</strong><small>{post.post_type} · {post.zone_name || "sin zona publicada"} · {formatDate(post.created_at)}</small></div><em className={`state-${post.post_state}`}>{postStateLabel(post.post_state)}</em><Link aria-label={`Gestionar ${post.name || "caso"}`} href={`/panel/casos/${post.id}`}><PencilLine />Gestionar</Link></article>)}</div> : <div className="dashboard-empty"><PawPrint /><strong>Todavía no publicaste casos</strong><span>Cuando publiques un animal perdido, encontrado o en adopción aparecerá acá.</span><Link className="button button-primary" href="/publicar">Crear primera publicación</Link></div>}
         </article>
