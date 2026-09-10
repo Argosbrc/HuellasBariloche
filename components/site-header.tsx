@@ -122,7 +122,33 @@ export function SiteHeader({
         </button>
 
       </div>
+<div className="header-mobile-actions">
 
+  <a
+    className="header-notification-button"
+    href="/panel#notificaciones"
+    aria-label="Notificaciones"
+  >
+    <Bell size={21} />
+
+    {unreadNotifications > 0 && (
+      <span className="notification-badge">
+        {unreadNotifications > 9 ? "9+" : unreadNotifications}
+      </span>
+    )}
+  </a>
+
+  <button
+    className="menu-button"
+    type="button"
+    aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+    aria-expanded={menuOpen}
+    onClick={() => setMenuOpen((value) => !value)}
+  >
+    {menuOpen ? <X /> : <Menu />}
+  </button>
+
+</div>
 
       {menuOpen && (
         <nav className="mobile-nav" aria-label="Navegación móvil">
@@ -143,14 +169,6 @@ export function SiteHeader({
           </a>
 
 
-          <a
-            className="button button-primary"
-            href="/publicar"
-            onClick={() => setMenuOpen(false)}
-          >
-            <PawPrint size={17} />
-            Publicar caso
-          </a>
 
 
           {navigation.map(([href, label]) => (
