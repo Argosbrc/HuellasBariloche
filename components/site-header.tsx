@@ -96,32 +96,6 @@ export function SiteHeader({
       </div>
 
 
-      <div className="header-mobile-actions">
-
-        <a
-          className="header-notification-button"
-          href="/panel#notificaciones"
-          aria-label="Notificaciones"
-        >
-          <Bell size={21} />
-
-          <span className="notification-badge">
-            3
-          </span>
-        </a>
-
-
-        <button
-          className="menu-button"
-          type="button"
-          aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((value) => !value)}
-        >
-          {menuOpen ? <X /> : <Menu />}
-        </button>
-
-      </div>
 <div className="header-mobile-actions">
 
   <a
