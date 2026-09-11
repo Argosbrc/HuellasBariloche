@@ -1467,6 +1467,43 @@ small { font-size: var(--text-xs); }
 .dashboard-stat-card small {
   color: #78908a;
 }
+.dashboard-stat-posts {
+  border-top: 4px solid #ef7768;
+}
+
+.dashboard-stat-notifications {
+  border-top: 4px solid #5594a4;
+}
+
+.dashboard-stat-conversations {
+  border-top: 4px solid #5fb4a5;
+}
+
+.dashboard-stat-points {
+  border-top: 4px solid #e9aa43;
+}
+.dashboard-stat-posts:hover {
+  background-color: #fde5e1;
+}
+
+.dashboard-stat-notifications:hover {
+  background-color: #e4f1f4;
+}
+
+.dashboard-stat-conversations:hover {
+  background-color: #e2f2ef;
+}
+
+.dashboard-stat-points:hover {
+  background-color: #fff3dc;
+}
+.dashboard-stat-card {
+  transition: background-color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+
+.dashboard-stat-card:hover {
+  transform: translateY(-3px);
+}
 .dashboard-stats article > svg { width: 24px; height: 24px; margin-bottom: 4px; color: var(--green); }
 .dashboard-stats span { color: var(--muted); font-size: var(--text-xs); font-weight: 700; }
 .dashboard-stats strong { font-family: var(--font-serif); font-size: var(--text-xl); line-height: 1; color: var(--ink); }

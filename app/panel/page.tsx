@@ -129,7 +129,10 @@ export default async function PanelPage({
 
       <section className="dashboard-stats">
 
-  <Link href="#mis-publicaciones-comunidad" className="dashboard-stat-card">
+  <Link 
+    href="#mis-publicaciones-comunidad" 
+    className="dashboard-stat-card dashboard-stat-posts"
+  >
     <PawPrint size={22} />
     <span>Mis publicaciones</span>
     <strong>{data.counts.posts}</strong>
@@ -137,7 +140,10 @@ export default async function PanelPage({
   </Link>
 
 
-  <Link href="#notificaciones" className="dashboard-stat-card">
+  <Link 
+    href="#notificaciones" 
+    className="dashboard-stat-card dashboard-stat-notifications"
+  >
     <BellRing size={22} />
     <span>Notificaciones</span>
     <strong>{data.unreadNotifications}</strong>
@@ -145,7 +151,10 @@ export default async function PanelPage({
   </Link>
 
 
-  <Link href="/conversaciones" className="dashboard-stat-card">
+  <Link 
+    href="/conversaciones" 
+    className="dashboard-stat-card dashboard-stat-conversations"
+  >
     <MessageCircle size={22} />
     <span>Conversaciones</span>
     <strong>{data.conversationCount}</strong>
@@ -153,7 +162,10 @@ export default async function PanelPage({
   </Link>
 
 
-  <Link href="#mis-medallas" className="dashboard-stat-card">
+  <Link 
+    href="#mis-medallas" 
+    className="dashboard-stat-card dashboard-stat-points"
+  >
     <HeartHandshake size={22} />
     <span>Puntos solidarios</span>
     <strong>{data.profile.points}</strong>
