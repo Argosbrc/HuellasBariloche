@@ -127,14 +127,7 @@ export function SiteHeader({
       {menuOpen && (
         <nav className="mobile-nav" aria-label="Navegación móvil">
 
-          <a
-            href="/panel#notificaciones"
-            onClick={() => setMenuOpen(false)}
-          >
-            🔔 Notificaciones
-          </a>
-
-
+          
           <a
             href="/panel"
             onClick={() => setMenuOpen(false)}
