@@ -129,7 +129,7 @@ export default async function PanelPage({
 
       <section className="dashboard-stats">
 
-  <Link href="#mis-publicaciones" className="dashboard-stat-card">
+  <Link href="#mis-publicaciones-comunidad" className="dashboard-stat-card">
     <PawPrint size={22} />
     <span>Mis publicaciones</span>
     <strong>{data.counts.posts}</strong>
