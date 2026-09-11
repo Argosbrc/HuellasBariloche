@@ -12,7 +12,6 @@ import {
   useMap,
 } from "react-leaflet";
 import {
-  BellRing,
   Cat,
   Crosshair,
   Dog,
@@ -378,11 +377,6 @@ export function CommunityMap({ cases, embedded = false }: { cases: MapPetCase[];
           <span><i className="adoption" />Adopción</span>
         </div>
 
-        <div className={`map-alert-floating${embedded ? " embedded-alert" : ""}`}>
-          <BellRing size={18} />
-          <div><strong>Alertas de 3 o 5 km</strong><small>Tu ubicación exacta no se publica</small></div>
-          <a className="button button-light" href="/panel#alertas-cercanas">Activar</a>
-        </div>
 
         {cases.length === 0 && (
           <div className="map-empty"><PawPrint size={34} /><strong>El mapa espera su primer caso</strong></div>
