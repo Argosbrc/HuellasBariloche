@@ -56,8 +56,7 @@ export async function getHomeData() {
       .select("*")
       .eq("post_type", "lost")
       .in("post_state", ["lost", "sighted"])
-      .ilike("species", "%perr%")
-      .order("created_at", { ascending: false })
+            .order("created_at", { ascending: false })
       .limit(8),
     supabase
       .from("api_pet_cases")

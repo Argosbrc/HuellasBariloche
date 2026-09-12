@@ -284,42 +284,80 @@ export function CommunityMap({ cases, embedded = false }: { cases: MapPetCase[];
             url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {mappedCases.map((item) => {
-            const meta = statusMeta(item.post_type);
-            const position: [number, number] = [
-              item.public_latitude as number,
-              item.public_longitude as number,
-            ];
-            return (
-              <Fragment key={item.id}>
-                <Circle
-                  center={position}
-                  color={meta.color}
-                  fillColor={meta.color}
-                  fillOpacity={0.08}
-                  opacity={0.45}
-                  radius={180}
-                  weight={1}
-                />
-                <Marker
-                  eventHandlers={{ click: () => setActiveId(item.id) }}
-                  icon={markerIcon(item, activeId === item.id)}
-                  position={position}
-                >
-                  <Popup>
-                    <div className="map-popup">
-                      {item.imageUrl && <img className="map-popup-photo" src={item.imageUrl} alt={item.name || "Mascota publicada"} />}
-                      <span className={`map-popup-status ${meta.className}`}>{meta.label}</span>
-                      <strong>{item.name || "Sin nombre"}</strong>
-                      <small><MapPin size={12} />{item.zone_name || item.city_name}</small>
-                      <p>Ubicación pública aproximada.</p>
-                      <a className="map-popup-link" href={`/casos/${item.id}`}>Ver ficha y contactar</a>
-                    </div>
-                  </Popup>
-                </Marker>
-              </Fragment>
-            );
-          })}
+          {mappedCases.map((item, index) => {
+  const meta = statusMeta(item.post_type);
+
+  const samePositionIndex = mappedCases
+    .slice(0, index)
+    .filter(
+      (other) =>
+        other.public_latitude === item.public_latitude &&
+        other.public_longitude === item.public_longitude
+    ).length;
+
+  const position: [number, number] = [
+    (item.public_latitude as number) + samePositionIndex * 0.00045,
+    (item.public_longitude as number) + samePositionIndex * 0.00045,
+  ];
+
+  console.log(
+    "MARKER",
+    item.name,
+    position[0],
+    position[1],
+    "offset",
+    samePositionIndex
+  );
+
+  return (
+    <Fragment key={item.id}>
+      <Circle
+        center={position}
+        color={meta.color}
+        fillColor={meta.color}
+        fillOpacity={0.08}
+        opacity={0.45}
+        radius={180}
+        weight={1}
+      />
+
+      <Marker
+        eventHandlers={{ click: () => setActiveId(item.id) }}
+        icon={markerIcon(item, activeId === item.id)}
+        position={position}
+      >
+        <Popup>
+          <div className="map-popup">
+            {item.imageUrl && (
+              <img
+                className="map-popup-photo"
+                src={item.imageUrl}
+                alt={item.name || "Mascota publicada"}
+              />
+            )}
+
+            <span className={`map-popup-status ${meta.className}`}>
+              {meta.label}
+            </span>
+
+            <strong>{item.name || "Sin nombre"}</strong>
+
+            <small>
+              <MapPin size={12} />
+              {item.zone_name || item.city_name}
+            </small>
+
+            <p>Ubicación pública aproximada.</p>
+
+            <a className="map-popup-link" href={`/casos/${item.id}`}>
+              Ver ficha y contactar
+            </a>
+          </div>
+        </Popup>
+      </Marker>
+    </Fragment>
+  );
+})}
 
           {userPosition && (
             <>
