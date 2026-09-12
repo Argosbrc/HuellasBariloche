@@ -54,7 +54,7 @@ export default async function RescuersPage({
     <main className="inner-shell rescuers-shell">
       <SiteHeaderWrapper inner />
       <section className="inner-hero rescuers-hero">
-        <div><span className="section-kicker">Red verificada</span><h1>Ayudar también es<em>abrir las puertas.</em></h1><p>Encontrá búsquedas de hogares de tránsito y conocé a los rescatistas y organizaciones aprobadas que sostienen cada rescate.</p></div>
+        <div><span className="section-kicker">Red verificada</span><h1>Abrir las puertas <em>es Ayudar.</em></h1><p>Encontrá búsquedas de hogares de tránsito y conocé a los rescatistas y organizaciones aprobadas que sostienen cada rescate.</p></div>
         <div className="rescuer-trust-panel"><BadgeCheck /><div><strong>Una sola red solidaria</strong><span>Los perfiles son revisados y los datos de cada ofrecimiento de tránsito permanecen privados.</span></div><ShieldCheck /></div>
       </section>
 

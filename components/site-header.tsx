@@ -132,7 +132,7 @@ export function SiteHeader({
             href="/panel"
             onClick={() => setMenuOpen(false)}
           >
-            👤 Mi cuenta
+            Mi cuenta
           </a>
 
 

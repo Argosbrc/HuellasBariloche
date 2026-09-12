@@ -13,7 +13,7 @@ export default async function UsefulDataPage() {
     <main className="inner-shell">
       <SiteHeaderWrapper inner />
       <section className="inner-hero services-hero guide-hero">
-        <div><span className="section-kicker">Datos útiles</span><h1>Información clara<em>cuando la necesitás.</em></h1><p>Veterinarias, guardias, pet shops, alimento, farmacias y otros servicios de Bariloche, con horarios y formas de contacto.</p></div>
+        <div><span className="section-kicker">Datos útiles</span><h1>Información <em>cuando la necesitás.</em></h1><p>Veterinarias, guardias, pet shops, alimento, farmacias y otros servicios de Bariloche, con horarios y formas de contacto.</p></div>
         <div className="emergency-banner"><Stethoscope size={25} /><div><span>¿Es una urgencia?</span><strong>Filtrá guardias, atención 24 h y visitas a domicilio.</strong></div><a className="button button-white" href="#directorio">Buscar ahora</a></div>
       </section>
       <DataNotice configured={result.configured} empty={result.data.length === 0} />

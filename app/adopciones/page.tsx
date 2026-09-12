@@ -32,7 +32,7 @@ export default async function AdoptionsPage() {
     <main className="inner-shell">
       <SiteHeaderWrapper inner />
       <section className="inner-hero adoption-hero">
-        <div><span className="section-kicker">Adopción responsable</span><h1>Una nueva historia<em>empieza en casa.</em></h1><p>Conocé animales publicados por rescatistas verificados y encontrá una adopción compatible con tu familia.</p></div>
+        <div><span className="section-kicker">Adopción responsable</span><h1>Comenzar de nuevo<em>juntos.</em></h1><p>Detrás de cada rescate hay una oportunidad de empezar de nuevo. Encontrá a quien te está esperando.</p></div>
         <div className="adoption-illustration"><span className="adoption-halo" /><Dog className="adoption-dog" size={125} /><Cat className="adoption-cat" size={92} /><div><ShieldCheck size={22} /><strong>Publicaciones verificadas</strong><small>Información sanitaria y requisitos de hogar.</small></div></div>
       </section>
       <DataNotice configured={result.configured} empty={result.data.length === 0} />
